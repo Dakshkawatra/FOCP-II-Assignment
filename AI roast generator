@@ -1,0 +1,116 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class AIRoastGenerator {
+
+private:
+
+    vector<string> roastTemplates;
+
+public:
+
+    AIRoastGenerator() {
+
+        roastTemplates = {
+
+            "{name}'s code runs so slowly that loading screens feel competitive.",
+
+            "If procrastination were an Olympic sport, {name} would already have multiple gold medals.",
+
+            "{name}'s debugging strategy is staring at the screen until the bug feels guilty.",
+
+            "{name} writes code that turns simple problems into research projects.",
+
+            "Even artificial intelligence needs emotional support after reading {name}'s code.",
+
+            "{name}'s keyboard deserves overtime pay for carrying the entire project.",
+
+            "{name} treats deadlines like optional side quests.",
+
+            "The only thing crashing faster than {name}'s program is their confidence during viva exams.",
+
+            "{name}'s logic is so creative that compilers classify it as abstract art.",
+
+            "{name} can convert perfectly working code into a mystery thriller within minutes.",
+
+            "If coding efficiency had an opposite definition, it would include {name}'s photo.",
+
+            "{name}'s GitHub commits look like evidence from a failed experiment.",
+
+            "Even syntax errors feel embarrassed interrupting {name}'s workflow.",
+
+            "{name}'s programs contain more twists than a suspense web series.",
+
+            "{name} doesn't write optimized code. They create job opportunities for future debuggers."
+        };
+    }
+
+    string replacePlaceholder(string roast, const string& name) {
+
+        string placeholder = "{name}";
+        size_t position = roast.find(placeholder);
+
+        while (position != string::npos) {
+
+            roast.replace(position, placeholder.length(), name);
+
+            position = roast.find(placeholder);
+        }
+
+        return roast;
+    }
+
+    string generateRoast(const string& name) {
+
+        int randomIndex = rand() % roastTemplates.size();
+
+        return replacePlaceholder(roastTemplates[randomIndex], name);
+    }
+};
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    srand(time(0));
+
+    AIRoastGenerator generator;
+
+    string userName;
+
+    cout << "=========================================\n";
+    cout << "         AI ROAST GENERATOR\n";
+    cout << "=========================================\n\n";
+
+    cout << "Enter your name: ";
+    getline(cin, userName);
+
+    if (userName.empty()) {
+
+        cout << "\nError: Name cannot be empty.\n";
+        return 0;
+    }
+
+    char choice;
+
+    do {
+
+        cout << "\n-----------------------------------------\n";
+        cout << "Generated Roast:\n\n";
+
+        cout << generator.generateRoast(userName) << "\n";
+
+        cout << "\n-----------------------------------------\n";
+
+        cout << "\nGenerate another roast? (Y/N): ";
+        cin >> choice;
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    } while (choice == 'Y' || choice == 'y');
+
+    cout << "\nThank you for using AI Roast Generator.\n";
+
+    return 0;
+}
