@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class MovieTicket {
+private:
+    unordered_map<int, unordered_set<int>> bookedUsers;
+    unordered_map<int, int> bookedCount;
+
+public:
+
+    bool BOOK(int X, int Y) {
+
+        if (bookedUsers[Y].count(X))
+            return false;
+
+        if (bookedCount[Y] >= 100)
+            return false;
+
+        bookedUsers[Y].insert(X);
+        bookedCount[Y]++;
+
+        return true;
+    }
+
+    bool CANCEL(int X, int Y) {
+
+        if (!bookedUsers[Y].count(X))
+            return false;
+
+        bookedUsers[Y].erase(X);
+        bookedCount[Y]--;
+
+        return true;
+    }
+
+    bool IS_BOOKED(int X, int Y) {
+
+        return bookedUsers[Y].count(X);
+    }
+
+    int AVAILABLE_TICKETS(int Y) {
+
+        return 100 - bookedCount[Y];
+    }
+};
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int Q;
+    cin >> Q;
+
+    cin.ignore();
+
+    MovieTicket mt;
+
+    while (Q--) {
+
+        string query;
+        getline(cin, query);
+
+        stringstream ss(query);
+
+        string type;
+        ss >> type;
+
+        if (type == "BOOK") {
+
+            int X, Y;
+            ss >> X >> Y;
+
+            cout << (mt.BOOK(X, Y) ? "true" : "false") << '\n';
+        }
+
+        else if (type == "CANCEL") {
+
+            int X, Y;
+            ss >> X >> Y;
+
+            cout << (mt.CANCEL(X, Y) ? "true" : "false") << '\n';
+        }
+
+        else if (type == "IS_BOOKED") {
+
+            int X, Y;
+            ss >> X >> Y;
+
+            cout << (mt.IS_BOOKED(X, Y) ? "true" : "false") << '\n';
+        }
+
+        else if (type == "AVAILABLE_TICKETS") {
+
+            int Y;
+            ss >> Y;
+
+            cout << mt.AVAILABLE_TICKETS(Y) << '\n';
+        }
+    }
+
+    return 0;
+}
