@@ -1,0 +1,130 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Bank {
+
+private:
+    unordered_map<int, long long> balance;
+
+public:
+
+    bool CREATE(int X, long long Y) {
+
+        if (balance.find(X) == balance.end()) {
+            balance[X] = Y;
+            return true;
+        }
+
+        balance[X] += Y;
+        return false;
+    }
+
+    bool DEBIT(int X, long long Y) {
+
+        if (balance.find(X) == balance.end())
+            return false;
+
+        if (balance[X] < Y)
+            return false;
+
+        balance[X] -= Y;
+        return true;
+    }
+
+    bool CREDIT(int X, long long Y) {
+
+        if (balance.find(X) == balance.end())
+            return false;
+
+        balance[X] += Y;
+        return true;
+    }
+
+    long long BALANCE(int X) {
+
+        if (balance.find(X) == balance.end())
+            return -1;
+
+        return balance[X];
+    }
+};
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    Bank bank;
+
+    int Q;
+
+    cout << "Enter number of queries: ";
+    cin >> Q;
+
+    cin.ignore();
+
+    cout << "\nAvailable Queries:\n";
+    cout << "CREATE X Y\n";
+    cout << "DEBIT X Y\n";
+    cout << "CREDIT X Y\n";
+    cout << "BALANCE X\n\n";
+
+    while (Q--) {
+
+        cout << "Enter query: ";
+
+        string query;
+        getline(cin, query);
+
+        stringstream ss(query);
+
+        string type;
+        ss >> type;
+
+        if (type == "CREATE") {
+
+            int X;
+            long long Y;
+
+            ss >> X >> Y;
+
+            cout << (bank.CREATE(X, Y) ? "true" : "false") << '\n';
+        }
+
+        else if (type == "DEBIT") {
+
+            int X;
+            long long Y;
+
+            ss >> X >> Y;
+
+            cout << (bank.DEBIT(X, Y) ? "true" : "false") << '\n';
+        }
+
+        else if (type == "CREDIT") {
+
+            int X;
+            long long Y;
+
+            ss >> X >> Y;
+
+            cout << (bank.CREDIT(X, Y) ? "true" : "false") << '\n';
+        }
+
+        else if (type == "BALANCE") {
+
+            int X;
+
+            ss >> X;
+
+            cout << bank.BALANCE(X) << '\n';
+        }
+
+        else {
+
+            cout << "Invalid Query\n";
+        }
+    }
+
+    return 0;
+}
